@@ -17,7 +17,9 @@ export default function socket({ wss } : { wss: WebSocketServer}) {
     wss.on(SocketType.CONNECTION, (ws:WebSocket) => {
         console.log("is nice");
         ws.on(SocketType.MESSAGE, (message: string) => {
-            console.log("message is: ", message);
+            const data = JSON.parse(message) as ChatData;
+            data.date = new Date().toISOString();
+            ws.send(JSON.stringify(data));
         });
     });
 }
